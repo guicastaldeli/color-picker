@@ -1,15 +1,16 @@
-from tkinter import Canvas, Entry, Frame, StringVar, Button, Label, ttk
-from PIL import Image, ImageTk
-from picker import Picker
+from tkinter import ttk, Canvas, Frame, StringVar
 
 class LiveColor:
     def __init__(self, parent):
         self.parent = parent
+        
+        #Style
         self.style = ttk.Style()
         self.style.theme_use('vista')
         
         self.style.configure('Hover.TEntry', padding=0)
         self.style.map('Hover.TEntry', relief=[('hover', 'sunken')], foreground=[('hover', 'black')])
+        #
         
         #Main Frame
         self.mainFrame = ttk.LabelFrame(self.parent, text='Live Color', padding=5)
@@ -71,7 +72,7 @@ class LiveColor:
         self.bg = 'black'
         
         self.colorDisplay = Canvas(self.mainFrame, width=self.width, height=self.height, bg=self.bg)
-        self.colorDisplay.pack(side='right', pady=(0, 5))
+        self.colorDisplay.pack(side='right', pady=(0, 8), padx=(0, 1))
         
         return self.colorDisplay
     

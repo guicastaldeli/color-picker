@@ -1,16 +1,17 @@
-from tkinter import Canvas, Entry, Frame, StringVar, Button, Label, ttk
-from PIL import Image, ImageTk
-from picker import Picker
+from tkinter import ttk, Canvas, Frame, StringVar
 
 class PickColor:
     #Init
     def __init__(self, parent):
         self.parent = parent
+        
+        #Style
         self.style = ttk.Style()
         self.style.theme_use('vista')
         
         self.style.configure('Hover.TEntry', padding=0)
         self.style.map('Hover.TEntry', relief=[('hover', 'sunken')], foreground=[('hover', 'black')])
+        #
         
         self.parent.bind('<Enter>', self.onWindowEnter)
         self.parent.bind('<Leave>', self.onWindowLeave)
@@ -83,7 +84,7 @@ class PickColor:
         self.bg = 'black'
         
         self.colorDisplay = Canvas(self.mainFrame, width=self.width, height=self.height, bg=self.bg)
-        self.colorDisplay.pack(side='right', pady=(0, 5))
+        self.colorDisplay.pack(side='right', pady=(0, 8), padx=(0, 1))
         
         return self.colorDisplay
         
@@ -92,7 +93,7 @@ class PickColor:
         textRGB = '(%d, %d, %d)' % rgb
         textHex = '#%02X%02X%02X'%rgb
         
-        #Create Inputs
+        #Create
         _ = self.mainFrame
         
         #Set Inputs

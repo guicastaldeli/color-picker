@@ -1,22 +1,36 @@
-from tkinter import Canvas
-from PIL import Image, ImageTk
+from tkinter import ttk, Canvas
+from PIL import ImageTk
 import os
 
 class Preview:
     def __init__(self, parent):
         self.parent = parent
         
+        #Style
+        self.style = ttk.Style()
+        self.style.configure('TFrame', background='#dcdcdc')
+        #
+        
         #Preview Display
-        self.previewImage = None
         self.previewCanvas = None
         self.currentImage = None
         
         #Cursor
+        self.setCursor()
+        
+        #Separator
+        self.setSeparator()
+        
+        #Preview
+        self.setupPreview()
+        
+    def setSeparator(self):
+        self.separator = ttk.Separator(self.parent, style='TFrame')
+        self.separator.place(x=415, y=40, width=1, height=250)
+        
+    def setCursor(self):
         path = os.path.join('assets', 'img', 'ctm-cursor.png')
         self.cursorImage = ImageTk.PhotoImage(file=path)
-        #
-        
-        self.setupPreview()
         
     def setupPreview(self):
         width = 200
@@ -29,15 +43,12 @@ class Preview:
         
     def updatePreview(self, img):
         try:
-            if not self.parent.winfo_viewable(): return
             if img is None: return
-            
-            if (hasattr(self, 'currentImage')): del self.currentImage
                 
-            self.currentImage = ImageTk.PhotoImage(img)
+            self.currentImage = img
             self.previewCanvas.delete('all')
             self.previewCanvas.create_image(100, 100, image=self.currentImage)
-            self.previewCanvas.create_image(100, 100, image=self.cursorImage)
+            if(hasattr(self, 'cursorImage')): self.previewCanvas.create_image(100, 100, image=self.cursorImage)
 
         except Exception as e:
             print(f'Preview error: {e}')
