@@ -1,5 +1,6 @@
 from tkinter import *
 import os
+import time
 
 from live_color_section import LiveColor
 from pick_color_section import PickColor
@@ -25,22 +26,31 @@ class Main:
         self.picker.root = self.root
         self.pickColor.picker = self.picker
         
-        self.picker.callback = self.pickColor.displayColor
         self.picker.previewCallback = self.preview.updatePreview
+        
+        self.picker.callback = self.pickColor.displayColor
+        self.picker.liveColorCallback = self.liveColor.updateColor
+        
         self.picker.startPicking()
         
     #Window
     def createWindow(self):
         self.root = Tk()
         self.root.title('Color Picker')
-        self.root.geometry('800x400')
+        self.root.geometry('700x330')
         self.root.attributes('-topmost', True)
         
         self.root.protocol('WM_DELETE_WINDOW', self.onClose)
         self.root.bind('<Unmap>', self.onMinimize)
         self.root.bind('<Map>', self.onRestore)
         
-        self._liveColor
+        #Icon
+        iconPath = os.path.join('assets', 'icon', 'icon.ico')
+        self.root.iconbitmap(iconPath)
+        self.root.after(10, lambda: self.root.iconbitmap(default=iconPath))
+        #
+        
+        self._liveColor()
         self._pickColor()
         self._preview()
         self._picker()
