@@ -1,22 +1,32 @@
 from tkinter import *
+import os
 
+from live_color_section import LiveColor
+from pick_color_section import PickColor
+from preview import Preview
 from picker import Picker
-from ui import UI
 
-class Main:    
-    #UI
-    def _ui(self):
-        self.ui = UI(self.root)
+class Main:
+    #Live Color Section
+    def _liveColor(self):
+        self.liveColor = LiveColor(self.root)
     
+    #Pick Color Section
+    def _pickColor(self):
+        self.pickColor = PickColor(self.root)
+        
+    #Preview
+    def _preview(self):
+        self.preview = Preview(self.root)
+        
     #Picker
     def _picker(self):
         self.picker = Picker()
         self.picker.root = self.root
-        self.ui.picker = self.picker
+        self.pickColor.picker = self.picker
         
-        self.canvas = self.ui.createCanvas(self.root)
-        self.picker.callback = self.ui.displayColor
-        self.picker.previewCallback = self.ui.updatePreview
+        self.picker.callback = self.pickColor.displayColor
+        self.picker.previewCallback = self.preview.updatePreview
         self.picker.startPicking()
         
     #Window
@@ -30,10 +40,9 @@ class Main:
         self.root.bind('<Unmap>', self.onMinimize)
         self.root.bind('<Map>', self.onRestore)
         
-        #UI
-        self._ui()
-        
-        #Picker
+        self._liveColor
+        self._pickColor()
+        self._preview()
         self._picker()
         
         #Main loop

@@ -14,7 +14,7 @@ class Picker:
         self.isClosing = False
         
         self.previewCallback = None
-        self.previewSize = 100
+        self.previewSize = 200
         self.magnification = 3
         self.lastUpdateTime = 0
         self.updateInterval = 0.1
@@ -45,8 +45,8 @@ class Picker:
         halfSize = self.previewSize / 2
         
         bBox = (
-            max(0, x - halfSize),
-            max(0, y - halfSize),
+            x - halfSize,
+            y - halfSize,
             x + halfSize,
             y + halfSize
         )

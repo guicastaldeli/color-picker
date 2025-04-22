@@ -1,8 +1,8 @@
-from tkinter import Canvas, Entry, Frame, StringVar, Button
+from tkinter import Canvas, Entry, Frame, StringVar, Button, Label
 from PIL import Image, ImageTk
 from picker import Picker
 
-class UI:
+class PickColor:
     #Init
     def __init__(self, parent):
         self.parent = parent
@@ -12,11 +12,6 @@ class UI:
         
         #Display Color
         self.colorDisplay = self.createCanvas(parent)
-        
-        #Preview Display
-        self.previewImage = None
-        self.previewCanvas = None
-        self.setupPreview()
         
         #Input
         self.inputFrame = None
@@ -31,7 +26,6 @@ class UI:
         self.hexFrame = None
         self.rgbCopy = None
         self.hexCopy = None
-        self.createButtons()
     
     #Window
     def onWindowEnter(self, event):
@@ -39,40 +33,32 @@ class UI:
             
     def onWindowLeave(self, event):
         if(hasattr(self, 'picker')): self.picker.resumePicking()
-        
-    #Preview Display
-    def setupPreview(self):
-        width = 200
-        height = 200
-        bg = 'white'
-        
-        self.previewCanvas = Canvas(self.parent, width=width, height=height, bg=bg)
-        self.previewCanvas.pack(pady=10)
-        
-    def updatePreview(self, img):
-        try:
-            if not self.parent.winfo_viewable(): return
-                
-            self.currentImage = ImageTk.PhotoImage(img)
-            self.previewCanvas.delete('all')
-            self.previewCanvas.create_image(100, 100, image=self.currentImage)
-        except Exception as e:
-            print(f'Preview error: {e}')
     
     #Input
     def createInputs(self):
-        inputFrame = Frame(self.parent)
-        inputFrame.pack(pady=10)
+        self.inputFrame = Frame(self.parent)
+        self.inputFrame.pack(pady=0)
         
         #RGB
         self.rgbFrame = Frame(self.inputFrame)
-        self.inputRGB = Entry(inputFrame, textvariable=self.colorRGB, state='readonly', width=10)
-        self.inputRGB.pack(side='left', padx=5)
+        self.rgbFrame.pack(side='left', padx=10)
+        
+        Label(self.rgbFrame, text='RGB:').pack(side='left', padx=(0, 5))
+        self.inputRGB = Entry(self.rgbFrame, textvariable=self.colorRGB, state='readonly', width=10)
+        self.inputRGB.pack(side='left')
+        #
         
         #Hex
         self.hexFrame = Frame(self.inputFrame)
-        self.inputHex = Entry(inputFrame, textvariable=self.colorHex, state='readonly', width=10)
-        self.inputHex.pack(side='left', padx=5)
+        self.hexFrame.pack(side='left', padx=10)
+        
+        Label(self.hexFrame, text='Hex:').pack(side='left', padx=(0, 5))
+        self.inputHex = Entry(self.hexFrame, textvariable=self.colorHex, state='readonly', width=10)
+        self.inputHex.pack(side='left')
+        #
+        
+        #Buttons
+        self.createButtons()
         
     #Button        
     def createButtons(self):
@@ -97,7 +83,7 @@ class UI:
         self.bg = 'white'
         
         self.colorDisplay = Canvas(parent, width=self.width, height=self.height, bg=self.bg)
-        self.colorDisplay.pack(pady=20)
+        self.colorDisplay.pack(pady=0)
         
         return self.colorDisplay
         
