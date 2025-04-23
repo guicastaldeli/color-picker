@@ -1,5 +1,6 @@
 from tkinter import *
 import os
+import sys
 
 from live_color_section import LiveColor
 from pick_color_section import PickColor
@@ -45,9 +46,7 @@ class Main:
         self.root.bind('<Map>', self.onRestore)
         
         #Icon
-        iconPath = os.path.join('assets', 'icon', 'icon.ico')
-        self.root.iconbitmap(iconPath)
-        self.root.after(0, lambda: self.root.iconbitmap(default=iconPath))
+        self.setIcon()
         #
         
         self._preview()
@@ -57,6 +56,23 @@ class Main:
         
         #Main loop
         self.root.mainloop()
+        
+    #Icon
+    def resourcePath(self, relativePath):
+        try:
+            basePath = sys._MEIPASS
+        except Exception:
+            basePath = os.path.abspath('.')
+            
+        return os.path.join(basePath, relativePath)
+    
+    def setIcon(self):
+        try:
+            iconPath = self.resourcePath(os.path.join('assets', 'icon', 'icon.ico'))
+            self.root.iconbitmap(iconPath)
+        except:
+            iconPath = ''
+    #
         
     def onClose(self):
         self.picker.isClosing = True
